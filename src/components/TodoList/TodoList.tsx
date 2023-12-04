@@ -1,16 +1,43 @@
 import { useState, FormEvent } from "react";
 import "../TodoList/TodoList.css";
 
+interface Task {
+  title: string;
+  description: string;
+  duedate: string;
+  category: string;
+  time: number | undefined;
+}
+
 const TodoList: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [duedate, setDueDate] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [time, setTime] = useState<number | undefined>();
-  //   const [redirectToHome, setRedirectToHome] = useState(false);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+
+    // Create a new task object
+    const newTask: Task = {
+      title,
+      description,
+      duedate,
+      category,
+      time,
+    };
+
+    // Add the new task to the tasks array
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+
+    // Clear the form fields
+    setTitle("");
+    setDescription("");
+    setDueDate("");
+    setCategory("");
+    setTime(undefined);
   };
   return (
     <>
@@ -78,14 +105,30 @@ const TodoList: React.FC = () => {
               className="add-task__time-input"
               name="time"
               placeholder="Number of minutes"
-              value={time}
+              value={time || ""}
               onChange={(e) => setTime(parseInt(e.target.value) || undefined)}
             ></input>
           </div>
-          <button type="submit" form="add-task">
-            Add task
-          </button>
+          <button type="submit">Add task</button>
         </form>
+      </div>
+      {/* Display the tasks below the form */}
+      <div className="tasks-list">
+        <h2>Task List</h2>
+        <ul className="task-item">
+          {tasks.map((task, index) => (
+            <li key={index}>
+              <label>
+                <input type="checkbox" />
+                <span>
+                  Category: {task.category}, Title: {task.title}, Description:{" "}
+                  {task.description}, Due Date: {task.duedate}, Time:{" "}
+                  {task.time}
+                </span>
+              </label>
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );

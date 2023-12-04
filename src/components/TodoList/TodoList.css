@@ -28,3 +28,7 @@
     }
   }
 }
+
+.task-item {
+  list-style: none;
+}
