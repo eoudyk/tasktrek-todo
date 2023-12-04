@@ -1,0 +1,30 @@
+.add-task__container {
+  margin: 1rem;
+  background: #eaecef;
+  border-radius: 1rem;
+  padding: 1rem;
+  max-width: 50rem;
+  #add-task-form {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    .add-task__heading {
+      font-size: x-large;
+    }
+    .add-task__category-label {
+      margin-right: 1.5rem;
+    }
+    .add-task__title-label {
+      margin-right: 1.5rem;
+    }
+    .add-task__description-label {
+      margin-right: 1.5rem;
+    }
+    .add-task__duedate-label {
+      margin-right: 1.5rem;
+    }
+    .add-task__time-label {
+      margin-right: 1.5rem;
+    }
+  }
+}
