@@ -28,10 +28,11 @@
     }
   }
 }
+
+/* task list section below */
 .tasks-list__title {
   margin: 1rem;
 }
-
 /* completed tasks styling */
 .tasks-list li.completed {
   text-decoration: line-through;

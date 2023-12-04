@@ -1,5 +1,7 @@
 import { useState, FormEvent } from "react";
 import "../TodoList/TodoList.css";
+// import EditIcon from "../../assets/icons8-edit.svg";
+import DeleteIcon from "../../assets/icons8-delete.svg";
 
 interface Task {
   title: string;
@@ -49,6 +51,11 @@ const TodoList: React.FC = () => {
         i === index ? { ...task, completed: !task.completed } : task
       )
     );
+  };
+
+  //  Fuction to handle task deletion, underscore as convention to indicate variable is intentionally not being used
+  const handleDelete = (index: number) => {
+    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
   };
   return (
     <>
@@ -140,6 +147,20 @@ const TodoList: React.FC = () => {
                   {task.description}, Due Date: {task.duedate}, Time:{" "}
                   {task.time}
                 </span>
+                {/* <button>
+                  <img
+                    className="edit__icon"
+                    src={EditIcon}
+                    alt="edit button"
+                  />
+                </button> */}
+                <button onClick={() => handleDelete(index)}>
+                  <img
+                    className="delete__icon"
+                    src={DeleteIcon}
+                    alt="delete button"
+                  />
+                </button>
               </label>
             </li>
           ))}
