@@ -7,6 +7,7 @@ interface Task {
   duedate: string;
   category: string;
   time: number | undefined;
+  completed: boolean;
 }
 
 const TodoList: React.FC = () => {
@@ -27,6 +28,7 @@ const TodoList: React.FC = () => {
       duedate,
       category,
       time,
+      completed: false, // Initially set as not completed
     };
 
     // Add the new task to the tasks array
@@ -38,6 +40,15 @@ const TodoList: React.FC = () => {
     setDueDate("");
     setCategory("");
     setTime(undefined);
+  };
+
+  // Function to handle task completion
+  const handleComplete = (index: number) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task, i) =>
+        i === index ? { ...task, completed: !task.completed } : task
+      )
+    );
   };
   return (
     <>
@@ -114,14 +125,18 @@ const TodoList: React.FC = () => {
       </div>
       {/* Display the tasks below the form */}
       <div className="tasks-list">
-        <h2>Task List</h2>
+        <h2 className="tasks-list__title">Task List</h2>
         <ul className="task-item">
           {tasks.map((task, index) => (
-            <li key={index}>
+            <li
+              key={index}
+              className={task.completed ? "completed" : ""}
+              onClick={() => handleComplete(index)}
+            >
               <label>
                 <input type="checkbox" />
                 <span>
-                  Category: {task.category}, Title: {task.title}, Description:{" "}
+                  Category: {task.category} Title: {task.title}, Description:{" "}
                   {task.description}, Due Date: {task.duedate}, Time:{" "}
                   {task.time}
                 </span>
