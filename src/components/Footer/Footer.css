@@ -4,7 +4,10 @@
   align-items: center;
   background-color: #d8f3dc;
   padding: 1rem;
+  /* position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%; */
 
-  /* remove later, just to see spacing between header */
   margin-top: 2rem;
 }

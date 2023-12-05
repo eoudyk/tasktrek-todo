@@ -82,7 +82,7 @@ const TodoList: React.FC = () => {
     }
   };
   return (
-    <>
+    <main className="main">
       <div className="add-task__container">
         <form id="add-task-form" onSubmit={handleSubmit}>
           <div className="add-task__heading">Add a task </div>
@@ -151,7 +151,9 @@ const TodoList: React.FC = () => {
               onChange={(e) => setTime(parseInt(e.target.value) || undefined)}
             ></input>
           </div>
-          <button type="submit">Add task</button>
+          <button className="submit__button" type="submit">
+            Add task
+          </button>
         </form>
       </div>
       {/* Display the tasks below the form */}
@@ -167,18 +169,28 @@ const TodoList: React.FC = () => {
               <label>
                 <input type="checkbox" checked={task.completed} readOnly />
                 <span>
-                  Category: {task.category} Title: {task.title}, Description:{" "}
-                  {task.description}, Due Date: {task.duedate}, Time:{" "}
-                  {task.time}
+                  Category: {task.category}
+                  <br />
+                  Title: {task.title}
+                  <br /> Description: {task.description} <br />
+                  Due Date: {task.duedate}
+                  <br /> Time: {task.time} minutes.
+                  <br />
                 </span>
-                <button onClick={() => openEditModal(index)}>
+                <button
+                  className="modify__button"
+                  onClick={() => openEditModal(index)}
+                >
                   <img
                     className="edit__icon"
                     src={EditIcon}
                     alt="edit button"
                   />
                 </button>
-                <button onClick={() => handleDelete(index)}>
+                <button
+                  className="modify__button"
+                  onClick={() => handleDelete(index)}
+                >
                   <img
                     className="delete__icon"
                     src={DeleteIcon}
@@ -306,16 +318,20 @@ const TodoList: React.FC = () => {
               ></input>
             </div>
             <button
+              className="submit__button"
               type="submit"
               onClick={() => handleEditSubmit(tasks[editingTaskIndex])}
             >
               Save Changes
             </button>
+
+            <button className="submit__button" onClick={closeEditModal}>
+              Close
+            </button>
           </form>
-          <button onClick={closeEditModal}>Close</button>
         </div>
       )}
-    </>
+    </main>
   );
 };
 
