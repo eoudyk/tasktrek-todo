@@ -1,6 +1,6 @@
 import { useState, FormEvent } from "react";
 import "../TodoList/TodoList.css";
-// import EditIcon from "../../assets/icons8-edit.svg";
+import EditIcon from "../../assets/icons8-edit.svg";
 import DeleteIcon from "../../assets/icons8-delete.svg";
 
 interface Task {
@@ -19,6 +19,8 @@ const TodoList: React.FC = () => {
   const [category, setCategory] = useState<string>("");
   const [time, setTime] = useState<number | undefined>();
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isEditModalVisible, setEditModalVisible] = useState<boolean>(false);
+  const [editingTaskIndex, setEditingTaskIndex] = useState<number | null>(null);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -57,6 +59,28 @@ const TodoList: React.FC = () => {
   const handleDelete = (index: number) => {
     setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
   };
+
+  //   Editing
+  const openEditModal = (index: number) => {
+    setEditingTaskIndex(index);
+    setEditModalVisible(true);
+  };
+
+  const closeEditModal = () => {
+    setEditModalVisible(false);
+    setEditingTaskIndex(null);
+  };
+
+  const handleEditSubmit = (editedTask: Task) => {
+    if (editingTaskIndex !== null) {
+      setTasks((prevTasks) =>
+        prevTasks.map((task, i) =>
+          i === editingTaskIndex ? { ...editedTask } : task
+        )
+      );
+      closeEditModal();
+    }
+  };
   return (
     <>
       <div className="add-task__container">
@@ -74,10 +98,10 @@ const TodoList: React.FC = () => {
               onChange={(e) => setCategory(e.target.value)}
             >
               <option value=""></option>
-              <option value="work">Work</option>
-              <option value="personal">Personal</option>
-              <option value="school">School</option>
-              <option value="errands">Errands</option>
+              <option value="Work">Work</option>
+              <option value="Personal">Personal</option>
+              <option value="School">School</option>
+              <option value="Errands">Errands</option>
             </select>
           </div>
           {/* task title */}
@@ -141,19 +165,19 @@ const TodoList: React.FC = () => {
               onClick={() => handleComplete(index)}
             >
               <label>
-                <input type="checkbox" />
+                <input type="checkbox" checked={task.completed} readOnly />
                 <span>
                   Category: {task.category} Title: {task.title}, Description:{" "}
                   {task.description}, Due Date: {task.duedate}, Time:{" "}
                   {task.time}
                 </span>
-                {/* <button>
+                <button onClick={() => openEditModal(index)}>
                   <img
                     className="edit__icon"
                     src={EditIcon}
                     alt="edit button"
                   />
-                </button> */}
+                </button>
                 <button onClick={() => handleDelete(index)}>
                   <img
                     className="delete__icon"
@@ -166,6 +190,131 @@ const TodoList: React.FC = () => {
           ))}
         </ul>
       </div>
+      {/* Editing: */}
+      {isEditModalVisible && editingTaskIndex !== null && (
+        <div className="edit-modal">
+          <h2>Edit Task</h2>
+          <form onSubmit={(e) => e.preventDefault()}>
+            {/* category */}
+            <div className="edit-task__category">
+              <label className="edit-task__category-label" htmlFor="edit-cate">
+                Pick a category:
+              </label>
+              <select
+                id="edit-cate"
+                name="edit-category"
+                value={tasks[editingTaskIndex]?.category || ""}
+                onChange={(e) =>
+                  setTasks((prevTasks) =>
+                    prevTasks.map((task, i) =>
+                      i === editingTaskIndex
+                        ? { ...task, category: e.target.value }
+                        : task
+                    )
+                  )
+                }
+              >
+                <option value=""></option>
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="School">School</option>
+                <option value="Errands">Errands</option>
+              </select>
+            </div>
+            {/* task title */}
+            <div className="edit-task__title">
+              <label className="edit-task__title-label">Title</label>
+              <input
+                className="edit-task__title-input"
+                name="title"
+                placeholder="Edit the title of your task"
+                value={tasks[editingTaskIndex]?.title || ""}
+                onChange={(e) =>
+                  setTasks((prevTasks) =>
+                    prevTasks.map((task, i) =>
+                      i === editingTaskIndex
+                        ? { ...task, title: e.target.value }
+                        : task
+                    )
+                  )
+                }
+              />
+            </div>
+            {/* description */}
+            <div className="edit-task__description">
+              <label className="edit-task__description-label">
+                Description
+              </label>
+              <input
+                className="edit-task__description-input"
+                name="description"
+                placeholder="Edit the description"
+                value={tasks[editingTaskIndex]?.description || ""}
+                onChange={(e) =>
+                  setTasks((prevTasks) =>
+                    prevTasks.map((task, i) =>
+                      i === editingTaskIndex
+                        ? { ...task, description: e.target.value }
+                        : task
+                    )
+                  )
+                }
+              />
+            </div>
+            {/* due date */}
+            <div className="edit-task__duedate">
+              <label className="edit-task__duedate-label">Due date</label>
+              <input
+                type="date"
+                id="edit-duedate"
+                className="edit-task__duedate-input"
+                name="duedate"
+                value={tasks[editingTaskIndex]?.duedate || ""}
+                onChange={(e) =>
+                  setTasks((prevTasks) =>
+                    prevTasks.map((task, i) =>
+                      i === editingTaskIndex
+                        ? { ...task, duedate: e.target.value }
+                        : task
+                    )
+                  )
+                }
+              />
+            </div>
+            {/* completion time */}
+            <div className="edit-task__time">
+              <label className="edit-task__time-label">
+                Estimated completion time
+              </label>
+              <input
+                className="edit-task__time-input"
+                name="time"
+                placeholder="Number of minutes"
+                value={tasks[editingTaskIndex]?.time || ""}
+                onChange={(e) =>
+                  setTasks((prevTasks) =>
+                    prevTasks.map((task, i) =>
+                      i === editingTaskIndex
+                        ? {
+                            ...task,
+                            time: parseInt(e.target.value) || undefined,
+                          }
+                        : task
+                    )
+                  )
+                }
+              ></input>
+            </div>
+            <button
+              type="submit"
+              onClick={() => handleEditSubmit(tasks[editingTaskIndex])}
+            >
+              Save Changes
+            </button>
+          </form>
+          <button onClick={closeEditModal}>Close</button>
+        </div>
+      )}
     </>
   );
 };
