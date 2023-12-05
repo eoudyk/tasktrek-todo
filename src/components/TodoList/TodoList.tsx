@@ -85,7 +85,7 @@ const TodoList: React.FC = () => {
     <main className="main">
       <div className="add-task__container">
         <form id="add-task-form" onSubmit={handleSubmit}>
-          <div className="add-task__heading">Add a task </div>
+          <h2 className="add-task__heading">Add a task </h2>
           {/* category */}
           <div className="add-task__category">
             <label className="add-task__category-label" htmlFor="cate">

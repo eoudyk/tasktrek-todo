@@ -1,18 +1,20 @@
 .main {
   display: flex;
 }
+
 .add-task__container {
   margin: 1rem;
   background: #eaecef;
   border-radius: 1rem;
   padding: 1rem;
-  max-width: 50rem;
+  width: 40%;
+  height: 16.25rem;
   #add-task-form {
     display: flex;
     flex-direction: column;
     margin: 1rem;
     .add-task__heading {
-      font-size: x-large;
+      margin-top: 0.2rem;
     }
     .add-task__category-label {
       margin-right: 1.5rem;
@@ -33,6 +35,10 @@
 }
 
 /* task list section below */
+.tasks-list {
+  width: 30%;
+}
+
 .tasks-list__title {
   margin: 1rem;
 }
