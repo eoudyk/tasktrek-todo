@@ -161,13 +161,13 @@ const TodoList: React.FC = () => {
         <h2 className="tasks-list__title">Task List</h2>
         <ul className="task-item">
           {tasks.map((task, index) => (
-            <li
-              key={index}
-              className={task.completed ? "completed" : ""}
-              onClick={() => handleComplete(index)}
-            >
+            <li key={index} className={task.completed ? "completed" : ""}>
               <label>
-                <input type="checkbox" checked={task.completed} readOnly />
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onClick={() => handleComplete(index)}
+                />
                 <span>
                   Category: {task.category}
                   <br />
